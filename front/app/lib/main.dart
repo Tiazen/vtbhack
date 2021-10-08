@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'sign_up_page.dart';
 import 'quiz_page.dart';
 import 'main_page.dart';
+// import 'main_page.dart';
+
 
 void main() => runApp(MyApp());
 
