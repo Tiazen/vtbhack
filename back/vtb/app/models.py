@@ -16,8 +16,9 @@ class Game(models.Model):
     gameType = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now=True)
     status = models.IntegerField(default=0)
-    winner = models.ForeignKey(AppUser, on_delete=models.CASCADE, blank=True, default=None)
+    winner = models.ForeignKey(AppUser, on_delete=models.CASCADE, blank=True, null=True, default=None)
     amountOfPlayers = models.IntegerField(default=2)
+    amountOfQuestions = models.IntegerField(default=10)
 
 class PlayerGames(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
