@@ -1,0 +1,123 @@
+// ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use
+
+import 'package:flutter/material.dart';
+
+
+void main() => runApp(MyApp());
+
+// ignore: use_key_in_widget_constructors
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: AccountPage(),
+    );
+  }
+}
+
+class AccountPage extends StatefulWidget {
+  @override
+  _AccountPageState createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: CustomPaint(
+      painter: Background(),
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 60,
+                ),
+                _getUserInfo(),
+                SizedBox(
+                  height: 50,
+                ),
+                _getTitleInvestements(),
+                SizedBox(
+                  height: 50,
+                ),
+                _getTitleBalance(),
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
+  }
+}
+
+_getTitleBalance() {
+    return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        'Ваш баланс:',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(216, 230, 252, 1))
+      ),
+    ],
+  );
+}
+
+_getTitleInvestements() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        'ВТБ инвестиции:',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(216, 230, 252, 1))
+      ),
+    ],
+  );
+}
+
+_getUserInfo() {
+  return Row(
+    children: <Widget>[
+      Image(image: AssetImage('assets/images/qq.png'), height: 80, width: 80),
+      SizedBox(width: 30),
+      Column(
+        children: <Widget>[
+          Text(
+            'Айдар Таиров',
+            style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(216, 230, 252, 1))
+          ),
+        ]
+      )
+    ]
+  );
+}
+
+class Background extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var sw = size.width;
+    var sh = size.height;
+    var paint = Paint();
+
+    Path mainBackground = Path();
+    mainBackground.addRect(Rect.fromLTRB(0, 0, sw, sh));
+    paint.color = Color.fromRGBO(34, 80, 148, 1);
+    canvas.drawPath(mainBackground, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return oldDelegate != this;
+  }
+}

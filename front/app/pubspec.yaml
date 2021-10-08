@@ -62,6 +62,10 @@ flutter:
     - assets/images/logo.png
     - assets/images/union.png
     - assets/images/logo2.png
+    - assets/images/avatar.png
+    - assets/images/new_avatar.png
+    - assets/images/qq.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

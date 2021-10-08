@@ -1,7 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use
 
 import 'package:flutter/material.dart';
-// import 'main_page.dart';
 
 
 void main() => runApp(MyApp());
@@ -88,7 +87,6 @@ _getFirstButton() {
           style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
           color: Color.fromRGBO(34, 80, 148, 1),
       ),
-    
     );
 }
 
