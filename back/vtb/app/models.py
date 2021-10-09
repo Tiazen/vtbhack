@@ -23,3 +23,13 @@ class Game(models.Model):
 class PlayerGames(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     player = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+
+
+class Question(models.Model):
+    question = models.CharField(max_length=2000)
+    qtype = models.IntegerField(default=0)
+    a1 = models.CharField(max_length=2000)
+    a2 = models.CharField(max_length=2000)
+    a3 = models.CharField(max_length=2000, default=None)
+    a4 = models.CharField(max_length=2000, default=None)
+    nRight = models.IntegerField(default=0)

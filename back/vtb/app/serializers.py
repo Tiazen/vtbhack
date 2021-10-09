@@ -35,3 +35,9 @@ class GameSerializer(serializers.ModelSerializer):
             'winner': {'required': False, 'read_only': True},
             'status': {'required': False, 'read_only': True},
         }
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'
