@@ -1,7 +1,10 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use, camel_case_types, sized_box_for_whitespace
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'creation_game_page.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -45,96 +48,52 @@ class _PVP_PageState extends State {
   }
 }
 
+Future<List<Widget>> fetchGames() async {
+  final response =
+      await http.get(Uri.parse('http://142.93.162.195:8000/game/'));
+  if (response.statusCode == 200) {
+    var lobbies = <Widget>[];
+    for (var item in jsonDecode(response.body)) {
+      lobbies.add(
+        RaisedButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+          onPressed: () {},
+          child: Row(
+            children: <Widget>[
+              Image(
+                  image: AssetImage('assets/images/qq.png'),
+                  height: 50,
+                  width: 50),
+              SizedBox(width: 12),
+              Text('Таиров Айдар',
+                  style: TextStyle(
+                      fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
+            ],
+          ),
+          color: Color.fromRGBO(49, 111, 204, 1),
+        ),
+      );
+    }
+    return lobbies;
+  }
+  return <Widget>[];
+}
+
 _getListOfGames() {
-  return Column(children: <Widget>[
-    RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      onPressed: () {},
-      child: Row(
-        children: <Widget>[
-          Image(
-              image: AssetImage('assets/images/qq.png'), height: 50, width: 50),
-          SizedBox(width: 12),
-          Text('Таиров Айдар',
-              style: TextStyle(
-                  fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-        ],
-      ),
-      color: Color.fromRGBO(49, 111, 204, 1),
-    ),
-    SizedBox(
-      height: 20,
-    ),
-    RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      onPressed: () {},
-      child: Row(
-        children: <Widget>[
-          Image(
-              image: AssetImage('assets/images/qq.png'), height: 50, width: 50),
-          SizedBox(width: 12),
-          Text('Антон Орлов',
-              style: TextStyle(
-                  fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-        ],
-      ),
-      color: Color.fromRGBO(49, 111, 204, 1),
-    ),
-    SizedBox(
-      height: 20,
-    ),
-    RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      onPressed: () {},
-      child: Row(
-        children: <Widget>[
-          Image(
-              image: AssetImage('assets/images/qq.png'), height: 50, width: 50),
-          SizedBox(width: 12),
-          Text('Георгий Данилов',
-              style: TextStyle(
-                  fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-        ],
-      ),
-      color: Color.fromRGBO(49, 111, 204, 1),
-    ),
-    SizedBox(
-      height: 20,
-    ),
-    RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      onPressed: () {},
-      child: Row(
-        children: <Widget>[
-          Image(
-              image: AssetImage('assets/images/qq.png'), height: 50, width: 50),
-          SizedBox(width: 12),
-          Text('Петрашин Никита',
-              style: TextStyle(
-                  fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-        ],
-      ),
-      color: Color.fromRGBO(49, 111, 204, 1),
-    ),
-    SizedBox(
-      height: 20,
-    ),
-    RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-      onPressed: () {},
-      child: Row(
-        children: <Widget>[
-          Image(
-              image: AssetImage('assets/images/qq.png'), height: 50, width: 50),
-          SizedBox(width: 12),
-          Text('Линецкий Максим',
-              style: TextStyle(
-                  fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-        ],
-      ),
-      color: Color.fromRGBO(49, 111, 204, 1),
-    )
-  ]);
+  FutureBuilder<List<Widget>>(
+    future: fetchGames(),
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        return Column(children: snapshot.data);
+      } else if (snapshot.hasError) {
+        return Text('${snapshot.error}');
+      }
+
+      // By default, show a loading spinner.
+      return const CircularProgressIndicator();
+    },
+  );
 }
 
 _getGamesHeader() {
@@ -161,8 +120,8 @@ _getCreateGameButton(context) {
     child: RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CreationGamePage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CreationGamePage()));
       },
       child: Text('Создать игру',
           style:

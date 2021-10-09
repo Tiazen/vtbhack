@@ -1,6 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use, camel_case_types, sized_box_for_whitespace
 
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'quiz_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +25,9 @@ class CreationGamePage extends StatefulWidget {
 }
 
 class _CreationGamePageState extends State {
+  final channel = WebSocketChannel.connect(
+    Uri.parse('ws://142.93.162.195:4000/?game=1&u=1'),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,9 +50,9 @@ class _CreationGamePageState extends State {
                 SizedBox(height: 20),
                 _getSecondParticipant(),
                 SizedBox(height: 100),
-                _getStartButton(),
+                _getStartButton(channel, context),
                 SizedBox(height: 50),
-                _getExitButton(context)
+                _getExitButton(context),
               ],
             ),
           )
@@ -52,49 +60,58 @@ class _CreationGamePageState extends State {
       ),
     ));
   }
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
+  }
 }
 
 _getExitButton(context) {
   return Container(
     width: 300,
     height: 100,
-     child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){
-          Navigator.pop(context);
-        },
-        child: Text('Выйти из игры',
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
-          color: Color.fromRGBO(49, 111, 204, 1),
-      ),
-    );
+    child: RaisedButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: Text('Выйти из игры',
+          style:
+              TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
+      color: Color.fromRGBO(49, 111, 204, 1),
+    ),
+  );
 }
 
-_getStartButton() {
+_getStartButton(channel, context) {
   return Container(
     width: 300,
     height: 100,
-     child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){
-        },
-        child: Text('Начать игру',
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
-          color: Color.fromRGBO(49, 111, 204, 1),
-      ),
-    );
+    child: RaisedButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+      onPressed: () {
+        channel.sink.add(jsonEncode({'action': 'start'}));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => QuizPage(channel: channel)));
+      },
+      child: Text('Начать игру',
+          style:
+              TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
+      color: Color.fromRGBO(49, 111, 204, 1),
+    ),
+  );
 }
 
 _getHeader_1() {
   return Row(
     children: <Widget>[
-      Text(
-        'Первый игрок:',
-        style: TextStyle(
-        fontSize: 23, fontWeight: FontWeight.w700, color: Color.fromRGBO(49, 111, 204, 1))
-      )
+      Text('Первый игрок:',
+          style: TextStyle(
+              fontSize: 23,
+              fontWeight: FontWeight.w700,
+              color: Color.fromRGBO(49, 111, 204, 1)))
     ],
   );
 }
@@ -102,11 +119,11 @@ _getHeader_1() {
 _getHeader_2() {
   return Row(
     children: <Widget>[
-      Text(
-        'Второй игрок:',
-        style: TextStyle(
-        fontSize: 23, fontWeight: FontWeight.w700, color: Color.fromRGBO(49, 111, 204, 1))
-      )
+      Text('Второй игрок:',
+          style: TextStyle(
+              fontSize: 23,
+              fontWeight: FontWeight.w700,
+              color: Color.fromRGBO(49, 111, 204, 1)))
     ],
   );
 }
