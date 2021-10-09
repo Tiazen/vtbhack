@@ -118,7 +118,7 @@ class GameViewSet(viewsets.ModelViewSet):
     
     @action(methods=["GET"], detail=False)
     def delGame(self, request):
-        gameId = request.data.get('game')
+        gameId = int(request.GET.get('game'))
         g = Game.objects.get(id=gameId)
         g.status = 2
         g.save()

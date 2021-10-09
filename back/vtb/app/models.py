@@ -32,4 +32,4 @@ class Question(models.Model):
     a2 = models.CharField(max_length=2000)
     a3 = models.CharField(max_length=2000, default=None)
     a4 = models.CharField(max_length=2000, default=None)
-    nRight = models.IntegerField(default=0)
+    nRight = models.IntegerField(default=1)
