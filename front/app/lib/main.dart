@@ -6,6 +6,7 @@ import 'quiz_page.dart';
 import 'main_page.dart';
 import 'swipe_page.dart';
 import 'account_page.dart';
+import 'pvp_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
     return MaterialApp(
-      home: AccountPage(),
+      home: PVP_Page(),
     );
   }
 }
