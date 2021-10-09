@@ -114,4 +114,13 @@ class GameViewSet(viewsets.ModelViewSet):
             game.winner = max(uRatings)[0]
             game.save()
             return Response("OK")
+        return Response("Bad request")
+    
+    @action(methods=["GET"], detail=False)
+    def delGame(self, request):
+        gameId = request.data.get('game')
+        g = Game.objects.get(id=gameId)
+        g.status = 2
+        g.save()
+        return Response("OK")
 
