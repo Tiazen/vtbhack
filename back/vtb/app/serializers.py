@@ -28,7 +28,7 @@ class AppUserRatingsSerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['gameType', 'status', 'winner', 'amountOfPlayers']
+        fields = ['id', 'gameType', 'status', 'winner', 'amountOfPlayers']
 
         extra_kwargs = {
             'gameType': {'required': False,},
