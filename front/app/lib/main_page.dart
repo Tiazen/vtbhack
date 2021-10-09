@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use
-
+//
+import 'package:app/pvp_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -39,7 +40,7 @@ class _MainPageState extends State {
                 SizedBox(
                   height: 150,
                 ),
-                _getFirstButton(),
+                _getFirstButton(context),
                 SizedBox(
                   height: 30,
                 ),
@@ -74,7 +75,7 @@ _getLogoAndHeader() {
   );
 }
 
-_getFirstButton() {
+_getFirstButton(context) {
   // ignore: sized_box_for_whitespace
   return Container(
     width: 300,
@@ -82,7 +83,10 @@ _getFirstButton() {
      child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){},
+        onPressed: (){
+            Navigator.push(
+              context, MaterialPageRoute(builder: (context) => PVP_Page()));
+        },
         child: Text('Battle Royale',
           style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
           color: Color.fromRGBO(34, 80, 148, 1),
