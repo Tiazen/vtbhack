@@ -59,14 +59,17 @@ class GameViewSet(viewsets.ModelViewSet):
         gSerializer = GameSerializer(data=request.data)
         
         if gSerializer.is_valid():
-            if PlayerGames.objects.filter(player__user=request.user, game__status=0).count() == 0:
+            games = PlayerGames.objects.filter(player__user=request.user, game__status=0)
+            if  games.count() == 0:
                 game = Game(gameType=gSerializer.validated_data.get('gameType', 0),
                             amountOfPlayers=gSerializer.validated_data.get("amountOfPlayers", 2))
                 game.save()
                 pg = PlayerGames(game=game, player=AppUser.objects.get(user=request.user))
                 pg.save()
-                return Response({"status": "OK"}, 200)
-            return Response({"status": "Already in game"}, 403)
+                return Response({"status": "OK", "game": game.id}, 200)
+
+            elif games.count() == 1:
+                return Response({"status": "OK", "game": games[0].game.id}, 200)
         return Response("Bad request", 400)
     
     @action(methods=["GET"], detail=False)
@@ -118,7 +121,7 @@ class GameViewSet(viewsets.ModelViewSet):
     
     @action(methods=["GET"], detail=False)
     def delGame(self, request):
-        gameId = request.data.get('game')
+        gameId = int(request.GET.get('game'))
         g = Game.objects.get(id=gameId)
         g.status = 2
         g.save()

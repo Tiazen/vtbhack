@@ -88,9 +88,7 @@ _getBalance() {
     child: Row(
       children: <Widget>[
         Image(
-            image: AssetImage('assets/images/logo.png'),
-            height: 70,
-            width: 70),
+            image: AssetImage('assets/images/logo.png'), height: 70, width: 70),
         SizedBox(width: 12),
         Text('1000.00 рублей',
             style: TextStyle(
