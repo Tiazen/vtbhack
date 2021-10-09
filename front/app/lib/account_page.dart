@@ -1,5 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use, sized_box_for_whitespace
-//
+///
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -88,9 +88,7 @@ _getBalance() {
     child: Row(
       children: <Widget>[
         Image(
-            image: AssetImage('assets/images/logo.png'),
-            height: 70,
-            width: 70),
+            image: AssetImage('assets/images/logo.png'), height: 70, width: 70),
         SizedBox(width: 12),
         Text('1000.00 рублей',
             style: TextStyle(

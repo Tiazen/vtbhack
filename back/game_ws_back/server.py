@@ -52,6 +52,7 @@ def get_questions(game):
 
 async def serve(websocket, path):
     try:
+        print('Connected')
         # Register user
         game = path[path.find("=")+1:path.find("&")]
         user = path[path.rfind("=")+1:]

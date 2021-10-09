@@ -1,8 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors, duplicate_ignore, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element, avoid_unnecessary_containers, deprecated_member_use
-//
+
+import 'package:app/battle_royale_page.dart';
 import 'package:app/pvp_page.dart';
 import 'package:flutter/material.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -44,7 +44,7 @@ class _MainPageState extends State {
                 SizedBox(
                   height: 30,
                 ),
-                _getSecondButton(),
+                _getSecondButton(context),
                 SizedBox(
                   height: 30,
                 ),
@@ -80,50 +80,53 @@ _getFirstButton(context) {
   return Container(
     width: 300,
     height: 100,
-     child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){
-            Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PVP_Page()));
-        },
-        child: Text('Battle Royale',
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
-          color: Color.fromRGBO(34, 80, 148, 1),
-      ),
-    );
+    child: RaisedButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+      onPressed: () {
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BattleRoyale()));
+      },
+      child: Text('Battle Royale',
+          style:
+              TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
+      color: Color.fromRGBO(34, 80, 148, 1),
+    ),
+  );
 }
 
-_getSecondButton() {
+_getSecondButton(context) {
   // ignore: sized_box_for_whitespace
   return Container(
     width: 300,
     height: 100,
-     child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){},
-        child: Text('PVP',
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
-          color: Color.fromRGBO(34, 80, 148, 1),
-      ),
-    );
+    child: RaisedButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PVP_Page()));
+      },
+      child: Text('PVP',
+          style:
+              TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
+      color: Color.fromRGBO(34, 80, 148, 1),
+    ),
+  );
 }
 
 _getThirdButton() {
   // ignore: sized_box_for_whitespace
   return Container(
-    width: 300,
-    height: 100,
-     child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0)),
-        onPressed: (){},
+      width: 300,
+      height: 100,
+      child: RaisedButton(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+        onPressed: () {},
         child: Text('Education',
-          style: TextStyle(fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
-          color: Color.fromRGBO(34, 80, 148, 1),
-      )
-    );
+            style: TextStyle(
+                fontSize: 25, color: Color.fromRGBO(216, 230, 252, 1))),
+        color: Color.fromRGBO(34, 80, 148, 1),
+      ));
 }
 
 class Background extends CustomPainter {
