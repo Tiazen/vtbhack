@@ -59,9 +59,11 @@ async def serve(websocket, path):
         lobbies[game] = lobbies.get(game, set())
         lobbies[game].add(websocket)
         websockets.broadcast(lobbies[game], user_connect_to_lobby(game))
+        print(f"Client connect. Num of clients {len(lobbies)}")
         # Manage state changes
         async for message in websocket:
             data = json.loads(message)
+            print(data)
             if data["action"] == "start":
                 questions = get_questions(game)
                 asyncio.gather(send_questions(game, questions))

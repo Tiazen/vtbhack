@@ -127,3 +127,6 @@ class GameViewSet(viewsets.ModelViewSet):
         g.save()
         return Response("OK")
 
+class QuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
