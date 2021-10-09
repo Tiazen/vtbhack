@@ -26,6 +26,7 @@ import app.views as views
 router = DefaultRouter()
 router.register(r'users', views.AppUserViewSet)
 router.register(r'game', views.GameViewSet, basename="game")
+router.register(r'question', views.QuestionViewSet)
 
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
