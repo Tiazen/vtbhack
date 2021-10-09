@@ -77,8 +77,41 @@ class GameViewSet(viewsets.ModelViewSet):
             if game.count() == 1 and PlayerGames.objects.filter(player__user=request.user, game__status=0).count() == 0:
                 pg = PlayerGames(game=game[0], player=AppUser.objects.get(user=request.user))
                 pg.save()
-                return Response({"wsUrl": "ws://127.0.0.1:7777/" + str(gameId)})
+                return Response({"wsUrl": "ws://127.0.0.1:7777/?game={}/u={}".format(gameId, pg.player.id)})
             return Response({"status": "Invalid id"})
         return Response("Bad request", 400)
-            
+    
+    @action(methods=["GET"], detail=False)
+    def getQuestions(self, request):
+        gameId = int(request.GET.get("id", False))
+        if Game.objects.filter(id=gameId).count() == 1:
+            questions = Question.objects.all()
+            return Response(QuestionSerializer(questions, many=True).data)
+        return Response({"status": "Not found"}, 404)
+
+    @action(methods=["POST"], detail=False)
+    def results(self, request):
+        results = request.data.get("results")
+        gameId = results.get("id")
+        answers = results.get("ans")
+        if Game.objects.filter(id=gameId).count() == 1:
+            uRatings = []
+            for k, v in answers.items():
+                rating = 0
+                user = AppUser.objects.filter(user__id=k)
+                if user.count() == 1:
+                    user = user[0]
+                    for item in v:
+                        q = Question.objects.get(id=item["id"])
+                        if item["ans"] == q.nRight:
+                            rating += 1
+                    uRatings.append((user, rating))
+                    user.rating = user.rating + rating
+                    user.save()
+
+            game = Game.objects.get(id=gameId)
+            game.status = 2
+            game.winner = max(uRatings)[0]
+            game.save()
+            return Response("OK")
 
