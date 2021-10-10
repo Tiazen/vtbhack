@@ -38,7 +38,7 @@ class _PVP_PageState extends State {
                 _getHeader(),
                 _getCreateGameButton(context),
                 _getGamesHeader(),
-                _getListOfGames()
+                _getListOfGames(),
               ],
             ),
           )
@@ -48,52 +48,56 @@ class _PVP_PageState extends State {
   }
 }
 
-Future<List<Widget>> fetchGames() async {
-  final response =
-      await http.get(Uri.parse('http://142.93.162.195:8000/game/'));
-  if (response.statusCode == 200) {
-    var lobbies = <Widget>[];
-    for (var item in jsonDecode(response.body)) {
-      lobbies.add(
-        RaisedButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
-          onPressed: () {},
-          child: Row(
-            children: <Widget>[
-              Image(
-                  image: AssetImage('assets/images/qq.png'),
-                  height: 50,
-                  width: 50),
-              SizedBox(width: 12),
-              Text('Таиров Айдар',
-                  style: TextStyle(
-                      fontSize: 23, color: Color.fromRGBO(216, 230, 252, 1))),
-            ],
-          ),
-          color: Color.fromRGBO(49, 111, 204, 1),
-        ),
-      );
-    }
-    return lobbies;
-  }
-  return <Widget>[];
-}
+
 
 _getListOfGames() {
-  FutureBuilder<List<Widget>>(
-    future: fetchGames(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return Column(children: snapshot.data);
-      } else if (snapshot.hasError) {
-        return Text('${snapshot.error}');
-      }
+  return Column(
+    children: [
+  RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40.0)),
+              onPressed: () {},
+              child: Row(
+                children: <Widget>[
+                  Image(
+                      image: AssetImage('assets/images/qq.png'),
+                      height: 50,
+                      width: 50),
+                  SizedBox(width: 12),
+                  Text('Таиров Айдар',
+                      style: TextStyle(
+                          fontSize: 23,
+                          color: Color.fromRGBO(216, 230, 252, 1))),
+                ],
+              ),
+              color: Color.fromRGBO(49, 111, 204, 1),
+            ),
+    ]);
+}
 
-      // By default, show a loading spinner.
-      return const CircularProgressIndicator();
-    },
-  );
+Future<List<Lobby>> fetchGames() async {
+  final response =
+      await http.get(Uri.parse('http://142.93.162.195:8000/game/'));
+  List<Lobby> lobbies = <Lobby>[];
+  if (response.statusCode == 200) {
+    for (var item in jsonDecode(response.body)) {
+      print(item);
+      lobbies.add(Lobby(id: 2));
+    }
+  }
+  return lobbies;
+}
+
+class Lobby {
+  final int id;
+
+  Lobby({
+    required this.id,
+  });
+
+  factory Lobby.fromJson(Map<String, dynamic> json) {
+    return Lobby(id: json['id']);
+  }
 }
 
 _getGamesHeader() {

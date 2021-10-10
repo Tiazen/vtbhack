@@ -56,8 +56,8 @@ class _QuizPageState extends State<QuizPage> {
               child: StreamBuilder(
                   stream: widget.channel.stream,
                   builder: (context, snapshot) {
+                    var data = json.decode(snapshot.data.toString());
                     if (snapshot.hasData) {
-                      var data = json.decode(snapshot.data.toString());
                       if (data.containsKey('game')) {
                         return Center(
                           child: Container(
@@ -75,6 +75,8 @@ class _QuizPageState extends State<QuizPage> {
                             color: Color.fromRGBO(137, 181, 247, 1),
                           ),
                         ));
+                      } else if(data.containsKey("message")){
+                        return Text("Connected to the server");
                       } else {
                         if (prev_quest != data["new_question"]['id']) {
                           flag = false;
